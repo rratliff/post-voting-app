@@ -211,15 +211,6 @@ $(function() {
         var pv = new PostView(p);
         this.list.push(pv);
     }
-    PostList.prototype.hasTitle = function(title) {
-        for (var i in this.list) {
-            var item = this.list[i];
-            if (item.model.title && (item.model.title == title)) {
-                return true;
-            }
-        }
-        return false;
-    }
     PostList.prototype.sort = function() {
         this.list = _.sortBy(this.list, this.comparator);
     }

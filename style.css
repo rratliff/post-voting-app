@@ -1,0 +1,114 @@
+body {
+    font-family: arial,sans-serif;
+}
+#app-header {
+    background: rgb(230,241,246);
+    border-radius: 10px;
+    padding: 10px;
+    width: 712px;
+}
+#app-header canvas {
+    float:right;
+}
+#app-header h1 {
+    margin: 0;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 730px;
+    overflow: hidden;
+}
+.list-wrapper {
+    border: 1px solid rgb(234, 234, 234);
+    border-radius: 10px;
+    clear: both;
+    margin-top: 1em;
+    width: 730px;
+}
+.list-header {
+    background: rgb(234, 234, 234);
+    border-radius: 10px 10px 0 0;
+}
+.list-header h2 {
+    margin: 0;
+    padding: 10px;
+}
+li {
+    border-top: 1px solid rgb(234, 234, 234);
+    float: left;
+    width: 710px;
+    padding: 10px
+}
+
+div.post-title {
+    width: 390px;
+    float: left;
+    font-size: x-large;
+    color: #444;
+}
+div.voting-tools {
+    float: right;
+    text-align: right;
+    width: 320px;
+}
+.btn {
+    background: #ccc;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: black;
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none;
+}
+.votecount-number {
+    font-size: x-large;
+    color: rgb(132,192,78);
+    font-weight: bold;
+}
+
+/* Styles for the dialog */
+#overlay {
+    bottom: 0;
+    display: none;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+#blanket {
+    background: rgb(0, 0, 0); /* The fallback */
+    background: rgba(0, 0, 0, 0.8);
+    bottom: 0;
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#dialog {
+    background: rgb(255, 255, 255); /* The fallback */
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    margin: 100px auto;
+    padding: 10px;
+    position: relative;
+    width: 500px;
+}
+#dialog h4 {
+    background: #a33;
+    border-radius: 10px;
+    color: white;
+    margin: 5px 0;
+    padding: 5px;
+}
+#dialog .container {
+    margin: 20px 0;
+}
+#dialog .btn {
+    padding: 5px 40px;
+}

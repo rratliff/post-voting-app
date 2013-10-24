@@ -16,9 +16,9 @@ body {
 ul {
     list-style-type: none;
     margin: 0;
+    overflow: hidden;
     padding: 0;
     width: 730px;
-    overflow: hidden;
 }
 .list-wrapper {
     border: 1px solid rgb(234, 234, 234);
@@ -30,18 +30,18 @@ ul {
 li {
     border-top: 1px solid rgb(234, 234, 234);
     float: left;
-    width: 710px;
     padding: 10px
+    width: 710px;
 }
 li:first-child {
     border-top: none;
 }
 
 div.post-title {
-    width: 390px;
+    color: #444;
     float: left;
     font-size: x-large;
-    color: #444;
+    width: 390px;
 }
 div.voting-tools {
     float: right;
@@ -58,8 +58,8 @@ div.voting-tools {
     text-decoration: none;
 }
 .votecount-number {
-    font-size: x-large;
     color: rgb(132,192,78);
+    font-size: x-large;
     font-weight: bold;
 }
 

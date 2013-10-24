@@ -49,15 +49,13 @@
         <!-- Templates -->
         <!-- Note the %- which results in an escaped value -->
         <script type="text/template" id="post-template">
-            <div class="post-title">
-                <strong class="post-title"><%- title %></strong>
-            </div>
             <div class="voting-tools">
-	        <span class="votecount">
+                <span class="votecount">
                     <span class="votecount-number"><%- votes %></span>
                     <%= votes == 1 ? 'vote' : 'votes' %></span>
                 <a href="#" class="addvote btn">Add your vote</a>
             </div>
+            <strong class="post-title"><%- title %></strong>
         </script>
     </body>
 </html>

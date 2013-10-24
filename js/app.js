@@ -234,7 +234,7 @@ $(function() {
     ListManager.prototype.fetch = function() {
         var that = this;
         return ajaxWrapper({
-            action: 'pva_getposts',
+            action: 'pva_getposts'
         }).done(function(data) {
             that.reset();
             $.each(data, function(index, item) {

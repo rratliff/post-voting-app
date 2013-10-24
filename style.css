@@ -37,16 +37,13 @@ li:first-child {
     border-top: none;
 }
 
-div.post-title {
+strong.post-title {
     color: #444;
-    float: left;
     font-size: x-large;
-    width: 390px;
 }
 div.voting-tools {
     float: right;
     text-align: right;
-    width: 320px;
 }
 .btn {
     background: #ccc;

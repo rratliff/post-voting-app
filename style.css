@@ -1,5 +1,6 @@
 body {
     font-family: arial,sans-serif;
+    margin: 8px;
 }
 #app-header {
     background: rgb(230,241,246);

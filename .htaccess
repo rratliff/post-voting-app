@@ -1,5 +1,7 @@
-# Prevent access to .git directory
 RewriteEngine On
+# Prevent access to .git directory
 RewriteRule ^(.*/)?\.git/ - [F,L]
+# Prevent access to piwik.html
+RewriteRule ^/?piwik.html$ - [F,L,NS]
 ErrorDocument 403 "Access Forbidden"
 

@@ -1,0 +1,11 @@
+.app {
+    width: 100%;
+}
+
+#dialog {
+    width: 100%;
+}
+
+div.voting-tools {
+    float: none;
+}

@@ -2,11 +2,13 @@ body {
     font-family: arial,sans-serif;
     margin: 8px;
 }
+.app {
+    width: 730px;
+}
 #app-header {
     background: rgb(230,241,246);
     border-radius: 10px;
     padding: 10px;
-    width: 712px;
 }
 #app-header canvas {
     float:right;
@@ -14,25 +16,19 @@ body {
 #app-header h1 {
     margin: 0;
 }
-ul {
-    list-style-type: none;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    width: 730px;
-}
 .list-wrapper {
     border: 1px solid rgb(234, 234, 234);
     border-radius: 10px;
-    clear: both;
     margin-top: 1em;
-    width: 730px;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 li {
     border-top: 1px solid rgb(234, 234, 234);
-    float: left;
     padding: 10px;
-    width: 710px;
 }
 li:first-child {
     border-top: none;

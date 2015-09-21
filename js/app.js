@@ -150,6 +150,9 @@ $(function() {
     }
 
     var Post = function(model) {
+        // Date is in SQL date format, e.g. "2014-09-20 20:35:04"
+        var t = model.date.split(/[- :]/);
+        model.date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
         this.model = model;
     }
     Post.prototype.addVote = function() {

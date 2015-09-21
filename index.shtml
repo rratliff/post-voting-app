@@ -53,6 +53,7 @@
         <!-- Note the %- which results in an escaped value -->
         <script type="text/template" id="post-template">
             <strong class="post-title"><%- title %></strong>
+            <span class="post-date"><%- date %></span>
             <div class="voting-tools">
                 <span class="votecount">
                     <span class="votecount-number"><%- votes %></span>

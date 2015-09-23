@@ -73,6 +73,11 @@ div.voting-tools {
     padding: 5px;
     text-decoration: none;
 }
+.btn-active {
+    background: black;
+    color: white;
+    border-color: white;
+}
 .votecount-number {
     color: rgb(132,192,78);
     font-size: x-large;

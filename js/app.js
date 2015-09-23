@@ -284,16 +284,22 @@ $(function() {
             that.refresh();
         });
         $('#sort-date').on('click', function() {
+            $('#sorting-buttons .btn-active').removeClass('btn-active');
+            $(this).addClass('btn-active');
             that.List.blogposts.comparator = dateComparator;
             that.List.render();
             return false;
         });
         $('#sort-title').on('click', function() {
+            $('#sorting-buttons .btn-active').removeClass('btn-active');
+            $(this).addClass('btn-active');
             that.List.blogposts.comparator = titleComparator;
             that.List.render();
             return false;
         });
         $('#sort-votes').on('click', function() {
+            $('#sorting-buttons .btn-active').removeClass('btn-active');
+            $(this).addClass('btn-active');
             that.List.blogposts.comparator = voteComparator;
             that.List.render();
             return false;

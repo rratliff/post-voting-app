@@ -40,7 +40,7 @@
 
             <ul id="sorting-buttons">
                 <li id="sort-by-label">Sort by: </li>
-                <li><a href="#" id="sort-votes" class="btn">Votes</a></li>
+                <li><a href="#" id="sort-votes" class="btn btn-active">Votes</a></li>
                 <li><a href="#" id="sort-date" class="btn">Date</a></li>
                 <li><a href="#" id="sort-title" class="btn">Title</a></li>
             </ul>

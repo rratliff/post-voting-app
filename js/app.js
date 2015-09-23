@@ -230,6 +230,12 @@ $(function() {
     var voteComparator = function(item) {
         return -1 * item.model.votes;
     }
+    var dateComparator = function(item) {
+        return item.model.date;
+    }
+    var titleComparator = function(item) {
+        return item.model.title;
+    }
 
     var ListManager = function() {
         this.blogposts = new PostList('#post-list', voteComparator);
@@ -251,6 +257,9 @@ $(function() {
     ListManager.prototype.reset = function() {
         this.blogposts.reset();
     }
+    ListManager.prototype.render = function() {
+        this.blogposts.render();
+    }
 
 
     var AppView = function() {
@@ -264,7 +273,7 @@ $(function() {
     AppView.prototype.refresh = function() {
         var that = this;
         this.List.fetch().done(function(){
-            that.List.blogposts.render();
+            that.List.render();
         }).fail(function() {
             openDialog('Server error', 'Error while getting posts');
         });
@@ -273,6 +282,21 @@ $(function() {
         var that = this;
         $(document).on('postvoting.refresh', function() {
             that.refresh();
+        });
+        $('#sort-date').on('click', function() {
+            that.List.blogposts.comparator = dateComparator;
+            that.List.render();
+            return false;
+        });
+        $('#sort-title').on('click', function() {
+            that.List.blogposts.comparator = titleComparator;
+            that.List.render();
+            return false;
+        });
+        $('#sort-votes').on('click', function() {
+            that.List.blogposts.comparator = voteComparator;
+            that.List.render();
+            return false;
         });
     }
 

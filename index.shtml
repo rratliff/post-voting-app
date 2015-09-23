@@ -38,11 +38,17 @@
                 </p>
             </div>
 
-	    <div class="list-wrapper">
+            <ul id="sorting-buttons">
+                <li id="sort-by-label">Sort by: </li>
+                <li><a href="#" id="sort-votes" class="btn">Votes</a></li>
+                <li><a href="#" id="sort-date" class="btn">Date</a></li>
+                <li><a href="#" id="sort-title" class="btn">Title</a></li>
+            </ul>
+            <div class="list-wrapper">
                 <ul id="post-list">
                     <li>Loading...</li>
                 </ul>
-	    </div>
+            </div>
         </div>
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/underscore.js"></script>
@@ -53,7 +59,7 @@
         <!-- Note the %- which results in an escaped value -->
         <script type="text/template" id="post-template">
             <strong class="post-title"><%- title %></strong>
-            <span class="post-date"><%- date %></span>
+            <span class="post-date" title="<%- date %>"><%- date.toDateString() %></span>
             <div class="voting-tools">
                 <span class="votecount">
                     <span class="votecount-number"><%- votes %></span>

@@ -170,11 +170,11 @@ $(function() {
         this.post = post;
         this.model = post.model;
         this.$el = $('<li></li>');
-        this.$el.on('click', '.addvote', this, this.addVote);
         this.template = _.template($('#post-template').html());
     }
     PostView.prototype.render = function() {
         this.$el.empty();
+        this.$el.on('click', '.addvote', this, this.addVote);
         this.$el.append(this.template(this.model));
         return this.$el;
     }

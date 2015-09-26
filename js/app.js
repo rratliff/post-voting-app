@@ -226,19 +226,9 @@ $(function() {
         });
     }
 
-    // Descending sort of votes
-    var voteComparator = function(item) {
-        return -1 * item.model.votes;
-    }
-    var dateComparator = function(item) {
-        return item.model.date;
-    }
-    var titleComparator = function(item) {
-        return item.model.title;
-    }
 
-    var ListManager = function() {
-        this.blogposts = new PostList('#post-list', voteComparator);
+    var ListManager = function(comparator) {
+        this.blogposts = new PostList('#post-list', comparator);
     }
     ListManager.prototype.fetch = function() {
         var that = this;
@@ -263,7 +253,20 @@ $(function() {
 
 
     var AppView = function() {
-        this.List = new ListManager();
+        var sortDate = document.getElementById('sort-date');
+        var sortTitle = document.getElementById('sort-title');
+        var sortVotes = document.getElementById('sort-votes');
+        sortDate.comparator = function(item) {
+            return item.model.date;
+        }
+        sortVotes.comparator = function(item) {
+            // Descending sort of votes
+            return -1 * item.model.votes;
+        }
+        sortTitle.comparator = function(item) {
+            return item.model.title;
+        }
+        this.List = new ListManager(sortVotes.comparator);
         this.element = $("#votingapp");
     }
     AppView.prototype.init = function() {
@@ -283,24 +286,10 @@ $(function() {
         $(document).on('postvoting.refresh', function() {
             that.refresh();
         });
-        $('#sort-date').on('click', function() {
+        $('#sorting-buttons .btn').on('click', function() {
             $('#sorting-buttons .btn-active').removeClass('btn-active');
             $(this).addClass('btn-active');
-            that.List.blogposts.comparator = dateComparator;
-            that.List.render();
-            return false;
-        });
-        $('#sort-title').on('click', function() {
-            $('#sorting-buttons .btn-active').removeClass('btn-active');
-            $(this).addClass('btn-active');
-            that.List.blogposts.comparator = titleComparator;
-            that.List.render();
-            return false;
-        });
-        $('#sort-votes').on('click', function() {
-            $('#sorting-buttons .btn-active').removeClass('btn-active');
-            $(this).addClass('btn-active');
-            that.List.blogposts.comparator = voteComparator;
+            that.List.blogposts.comparator = this.comparator;
             that.List.render();
             return false;
         });

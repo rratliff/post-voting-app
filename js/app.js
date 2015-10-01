@@ -21,6 +21,7 @@ $(function() {
         });
     }
 
+    // spinner: element that will contain the canvas
     var Animation = function(spinner) {
         this.spinner = spinner;
         this.fps = 30; // frames per second
@@ -64,19 +65,24 @@ $(function() {
         this.spinner.width = this.spinner.width;
     }
 
-    var ajaxWrapper = function(options) {
+    // action: string to be passed to the Wordpress AJAX action
+    // data: additional data to be added to the request. 'action' cannot be
+    // used here
+    // returns: jQuery Deferred object
+    var ajaxWrapper = function(action, data) {
         var spinner = document.getElementById('spinner');
         // start animation
         var a = new Animation(spinner);
         return $.Deferred(function(dfd) {
-            options.type = 'post';
-            options.url = baseUrl;
-            options.data = options.data + '&action=' + options.action;
-            $.ajax(options).always(function() {
+            $.ajax({
+                url: baseUrl,
+                data: _.extend(_.omit(data, 'action'), {action: action}),
+                method: 'POST'
+            }).always(function() {
                 a.stopAnimation();
             }).done(function(data) {
                 // If the server returns false, this is actually an error
-                if (data === false) {
+                if (data === false || data === 'false') {
                     dfd.reject();
                 } else {
                     dfd.resolve(data);
@@ -87,6 +93,7 @@ $(function() {
         });
     }
 
+    // From Flanagan's _Javascript, The Definitive Guide_
     var getCookies = function() {
         var cookies = {};
         var all = document.cookie;
@@ -104,6 +111,7 @@ $(function() {
         return cookies;
     }
 
+    // From Flanagan's _Javascript, The Definitive Guide_
     var setCookie = function(name, value, days) {
         var cookie = name + '=' + encodeURIComponent(value);
         if (typeof days === 'number') {
@@ -158,12 +166,10 @@ $(function() {
     Post.prototype.addVote = function() {
         var that = this;
         // Model doesn't care about business logic, so just add the vote
-        return ajaxWrapper({
-            action: 'pva_addvote',
-            data: 'id='+that.model.id
-        }).done(function() {
-            that.model.votes += 1;
-        });
+        return ajaxWrapper('pva_addvote', {id: that.model.id})
+            .done(function() {
+                that.model.votes += 1;
+            });
     }
 
     var PostView = function(post) {
@@ -232,9 +238,7 @@ $(function() {
     }
     ListManager.prototype.fetch = function() {
         var that = this;
-        return ajaxWrapper({
-            action: 'pva_getposts'
-        }).done(function(data) {
+        return ajaxWrapper('pva_getposts', {}).done(function(data) {
             that.reset();
             $.each(data, function(index, item) {
                 that.add(item);

@@ -3,16 +3,9 @@ $(function() {
         $.ajax({
                 url: "/wp-admin/admin-ajax.php",
                 data: _.extend(_.omit(data, 'action'), {action: action}),
-                method: 'POST'
-        }).done(function(data) {
-            // If the server returns false, this is actually an error
-            if (data === false || data === 'false') {
-                options.error();
-            } else {
-                options.success(data, true, {});
-            }
-        }).fail(function() {
-            options.error();
+                method: 'POST',
+                error: options.error,
+                success: options.success
         });
     }
 

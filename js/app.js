@@ -1,4 +1,21 @@
 $(function() {
+    var ajaxWrapper = function(action, data, options) {
+        $.ajax({
+                url: "/wp-admin/admin-ajax.php",
+                data: _.extend(_.omit(data, 'action'), {action: action}),
+                method: 'POST'
+        }).done(function(data) {
+            // If the server returns false, this is actually an error
+            if (data === false || data === 'false') {
+                options.error();
+            } else {
+                options.success(data, true, {});
+            }
+        }).fail(function() {
+            options.error();
+        });
+    }
+
     var Post = Backbone.Model.extend({
 
         convertDate: function(date) {
@@ -9,6 +26,14 @@ $(function() {
             var json = Backbone.Model.prototype.toJSON.call(this);
             json.date = this.convertDate(this.get('date'));
             return json;
+        },
+        addVote: function() {
+            this.save({votes: this.get("votes")+1});
+        },
+        sync: function(method, model, options) {
+            if (method == "update") {
+                ajaxWrapper('pva_addvote', {id: model.id}, options);
+            }
         }
     });
 
@@ -17,20 +42,7 @@ $(function() {
         model: Post,
         sync: function(method, model, options) {
             if (method == "read") {
-                $.ajax({
-                        url: "/wp-admin/admin-ajax.php",
-                        data: {action: 'pva_getposts'},
-                        method: 'POST'
-                }).done(function(data) {
-                    // If the server returns false, this is actually an error
-                    if (data === false || data === 'false') {
-                        options.error();
-                    } else {
-                        options.success(data, true, {});
-                    }
-                }).fail(function() {
-                    options.error();
-                });
+                ajaxWrapper('pva_getposts', {}, options);
             }
         }
     });
@@ -46,6 +58,9 @@ $(function() {
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
         },
+        addVote: function() {
+            this.model.addVote();
+        },
         render: function() {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
@@ -56,7 +71,6 @@ $(function() {
         el: $('#votingapp'),
         initialize: function() {
             this.listenTo(Posts, 'reset', this.addAll);
-            //this.listenTo(Posts, 'all', this.render);
 
             Posts.fetch({reset: true});
         },

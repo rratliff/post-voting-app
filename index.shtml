@@ -45,14 +45,13 @@
                 <li><a href="#" id="sort-title" class="btn">Title</a></li>
             </ul>
             <div class="list-wrapper">
-                <ul id="post-list">
-                    <li>Loading...</li>
-                </ul>
+                <ul id="post-list"></ul>
             </div>
         </div>
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/underscore.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/backbone.js"></script>
         <noscript><p>This app requires Javascript to run.</p></noscript>
 
         <!-- Templates -->

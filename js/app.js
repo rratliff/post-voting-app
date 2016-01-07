@@ -64,14 +64,41 @@ $(function() {
         el: $('#votingapp'),
         initialize: function() {
             this.listenTo(Posts, 'reset', this.addAll);
+            this.listenTo(Posts, 'sort', this.addAll);
 
+            var sortDate = document.getElementById('sort-date');
+            var sortTitle = document.getElementById('sort-title');
+            var sortVotes = document.getElementById('sort-votes');
+            sortDate.comparator = function(item) {
+                return item.get('date');
+            }
+            sortVotes.comparator = function(item) {
+                // Descending sort of votes
+                return -1 * item.get('votes');
+            }
+            sortTitle.comparator = function(item) {
+                return item.get('title');
+            }
+
+            Posts.comparator = sortVotes.comparator;
             Posts.fetch({reset: true});
         },
+        events: {
+            "click #sorting-buttons .btn" : "sortButton"
+        },
         addAll: function() {
+            this.$('#post-list').empty();
             Posts.each(function(post) {
                 var view = new PostView({model: post});
                 this.$('#post-list').append(view.render().el);
             }, this);
+        },
+        sortButton: function(event) {
+            $('#sorting-buttons .btn-active').removeClass('btn-active');
+            $(event.currentTarget).addClass('btn-active');
+            Posts.comparator = event.currentTarget.comparator;
+            Posts.sort();
+            event.preventDefault();
         }
     });
 

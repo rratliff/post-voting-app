@@ -60,9 +60,7 @@
                 <a href="#" class="addvote btn">Add your vote</a>
             </div>
         </script>
-<!--#if expr="%{SERVER_NAME} == 'bobbyratliff.nfshost.com'" -->
-<!--#include virtual="piwik.html" -->
-<!--#endif -->
+<!--#include virtual="piwik.shtml" -->
     </body>
 </html>
 

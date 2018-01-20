@@ -20,29 +20,50 @@ body {
     border: 1px solid rgb(234, 234, 234);
     border-radius: 10px;
     margin-top: 1em;
+    clear:both;
 }
-ul {
+.list-wrapper ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-li {
+.list-wrapper li {
     border-top: 1px solid rgb(234, 234, 234);
     overflow: hidden;
     padding: 10px;
 }
-li:first-child {
+.list-wrapper li:first-child {
     border-top: none;
 }
 
-strong.post-title {
+.post-title {
+    font-weight: bold;
     color: #444;
     font-size: x-large;
+}
+.post-date {
+    color: #666;
+    font-size: smaller;
+    white-space: nowrap;
 }
 div.voting-tools {
     float: right;
     text-align: right;
 }
+#sorting-buttons {
+    list-style: none;
+    padding: 0;
+    overflow: hidden;
+}
+#sorting-buttons li {
+    float:left;
+    padding-left: 5px;
+}
+#sort-by-label {
+    display: inline-block;
+    padding: 5px;
+}
+
 .btn {
     background: #ccc;
     border: 1px solid #333;
@@ -51,6 +72,11 @@ div.voting-tools {
     display: inline-block;
     padding: 5px;
     text-decoration: none;
+}
+.btn-active {
+    background: black;
+    color: white;
+    border-color: white;
 }
 .votecount-number {
     color: rgb(132,192,78);

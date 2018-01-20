@@ -21,6 +21,7 @@ $(function() {
         });
     }
 
+    // spinner: element that will contain the canvas
     var Animation = function(spinner) {
         this.spinner = spinner;
         this.fps = 30; // frames per second
@@ -64,19 +65,24 @@ $(function() {
         this.spinner.width = this.spinner.width;
     }
 
-    var ajaxWrapper = function(options) {
+    // action: string to be passed to the Wordpress AJAX action
+    // data: additional data to be added to the request. 'action' cannot be
+    // used here
+    // returns: jQuery Deferred object
+    var ajaxWrapper = function(action, data) {
         var spinner = document.getElementById('spinner');
         // start animation
         var a = new Animation(spinner);
         return $.Deferred(function(dfd) {
-            options.type = 'post';
-            options.url = baseUrl;
-            options.data = options.data + '&action=' + options.action;
-            $.ajax(options).always(function() {
+            $.ajax({
+                url: baseUrl,
+                data: _.extend(_.omit(data, 'action'), {action: action}),
+                method: 'POST'
+            }).always(function() {
                 a.stopAnimation();
             }).done(function(data) {
                 // If the server returns false, this is actually an error
-                if (data === false) {
+                if (data === false || data === 'false') {
                     dfd.reject();
                 } else {
                     dfd.resolve(data);
@@ -87,6 +93,7 @@ $(function() {
         });
     }
 
+    // From Flanagan's _Javascript, The Definitive Guide_
     var getCookies = function() {
         var cookies = {};
         var all = document.cookie;
@@ -104,6 +111,7 @@ $(function() {
         return cookies;
     }
 
+    // From Flanagan's _Javascript, The Definitive Guide_
     var setCookie = function(name, value, days) {
         var cookie = name + '=' + encodeURIComponent(value);
         if (typeof days === 'number') {
@@ -150,28 +158,29 @@ $(function() {
     }
 
     var Post = function(model) {
+        // Date is in SQL date format, e.g. "2014-09-20 20:35:04"
+        var t = model.date.split(/[- :]/);
+        model.date = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
         this.model = model;
     }
     Post.prototype.addVote = function() {
         var that = this;
         // Model doesn't care about business logic, so just add the vote
-        return ajaxWrapper({
-            action: 'pva_addvote',
-            data: 'id='+that.model.id
-        }).done(function() {
-            that.model.votes += 1;
-        });
+        return ajaxWrapper('pva_addvote', {id: that.model.id})
+            .done(function() {
+                that.model.votes += 1;
+            });
     }
 
     var PostView = function(post) {
         this.post = post;
         this.model = post.model;
         this.$el = $('<li></li>');
-        this.$el.on('click', '.addvote', this, this.addVote);
         this.template = _.template($('#post-template').html());
     }
     PostView.prototype.render = function() {
         this.$el.empty();
+        this.$el.on('click', '.addvote', this, this.addVote);
         this.$el.append(this.template(this.model));
         return this.$el;
     }
@@ -223,19 +232,13 @@ $(function() {
         });
     }
 
-    // Descending sort of votes
-    var voteComparator = function(item) {
-        return -1 * item.model.votes;
-    }
 
-    var ListManager = function() {
-        this.blogposts = new PostList('#post-list', voteComparator);
+    var ListManager = function(comparator) {
+        this.blogposts = new PostList('#post-list', comparator);
     }
     ListManager.prototype.fetch = function() {
         var that = this;
-        return ajaxWrapper({
-            action: 'pva_getposts'
-        }).done(function(data) {
+        return ajaxWrapper('pva_getposts', {}).done(function(data) {
             that.reset();
             $.each(data, function(index, item) {
                 that.add(item);
@@ -248,10 +251,26 @@ $(function() {
     ListManager.prototype.reset = function() {
         this.blogposts.reset();
     }
+    ListManager.prototype.render = function() {
+        this.blogposts.render();
+    }
 
 
     var AppView = function() {
-        this.List = new ListManager();
+        var sortDate = document.getElementById('sort-date');
+        var sortTitle = document.getElementById('sort-title');
+        var sortVotes = document.getElementById('sort-votes');
+        sortDate.comparator = function(item) {
+            return item.model.date;
+        }
+        sortVotes.comparator = function(item) {
+            // Descending sort of votes
+            return -1 * item.model.votes;
+        }
+        sortTitle.comparator = function(item) {
+            return item.model.title;
+        }
+        this.List = new ListManager(sortVotes.comparator);
         this.element = $("#votingapp");
     }
     AppView.prototype.init = function() {
@@ -261,7 +280,7 @@ $(function() {
     AppView.prototype.refresh = function() {
         var that = this;
         this.List.fetch().done(function(){
-            that.List.blogposts.render();
+            that.List.render();
         }).fail(function() {
             openDialog('Server error', 'Error while getting posts');
         });
@@ -270,6 +289,13 @@ $(function() {
         var that = this;
         $(document).on('postvoting.refresh', function() {
             that.refresh();
+        });
+        $('#sorting-buttons .btn').on('click', function() {
+            $('#sorting-buttons .btn-active').removeClass('btn-active');
+            $(this).addClass('btn-active');
+            that.List.blogposts.comparator = this.comparator;
+            that.List.render();
+            return false;
         });
     }
 

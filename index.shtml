@@ -36,6 +36,7 @@
                     rratliff/post-voting-api</a>.
                 (<a href="https://github.com/rratliff/post-voting-api/blob/master/README.txt">README</a>)
                 </p>
+                <p>Back to <a href="/">my blog</a>.</p>
             </div>
 
             <ul id="sorting-buttons">
@@ -58,8 +59,8 @@
         <!-- Templates -->
         <!-- Note the %- which results in an escaped value -->
         <script type="text/template" id="post-template">
-            <strong class="post-title"><%- title %></strong>
-            <span class="post-date" title="<%- date %>"><%- date.toDateString() %></span>
+            <strong class="post-title"><a href="/?p=<%- id %>"><%- title %></a></strong>
+            <p><span class="post-date" title="<%- date %>"><%- date.toDateString() %></span></p>
             <div class="voting-tools">
                 <span class="votecount">
                     <span class="votecount-number"><%- votes %></span>

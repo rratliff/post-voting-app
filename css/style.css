@@ -41,8 +41,16 @@ body {
     color: #444;
     font-size: x-large;
 }
+.post-title a {
+    text-decoration: none;
+    color: #444;
+}
+.post-title a:hover {
+    text-decoration: underline;
+}
 .post-date {
     color: #666;
+    float: left;
     font-size: smaller;
     white-space: nowrap;
 }
